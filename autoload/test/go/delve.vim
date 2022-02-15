@@ -50,7 +50,7 @@ function! test#go#delve#build_args(args) abort
     let delve_init_instructions = delve#getInitInstructions()
 
     if g:test#go#delve#auto_continue
-      delve_init_instructions = delve_init_instructions + ["continue"]
+      call add(delve_init_instructions, "continue")
     endif
 
     if len(delve_init_instructions) > 0
