@@ -49,7 +49,7 @@ function! test#go#delve#build_args(args) abort
   if exists('*delve#getInitInstructions')
     let delve_init_instructions = delve#getInitInstructions()
 
-    if test#go#delve#auto_continue
+    if g:test#go#delve#auto_continue
       delve_init_instructions = delve_init_instructions + ["continue"]
     endif
 
