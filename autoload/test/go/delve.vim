@@ -2,6 +2,10 @@ if !exists('g:test#go#delve#file_pattern')
   let g:test#go#delve#file_pattern = g:test#go#gotest#file_pattern
 endif
 
+if !exists('g:test#go#delve#auto_continue')
+  let g:test#go#delve#auto_continue = v:false
+endif
+
 function! test#go#delve#test_file(file) abort
   return test#go#test_file('delve', g:test#go#delve#file_pattern, a:file)
 endfunction
@@ -38,6 +42,11 @@ function! test#go#delve#build_args(args) abort
   if exists('*delve#getInitInstructions')
     let delve_init_instructions = delve#getInitInstructions()
     if len(delve_init_instructions) > 0
+
+      if test#go#delve#auto_continue
+        delve_init_instructions = delve_init_instructions + ["continue"]
+      endif
+
       let temp_file = tempname()
       call writefile(delve_init_instructions, temp_file)
       let args = ['--init='.temp_file] + a:args
